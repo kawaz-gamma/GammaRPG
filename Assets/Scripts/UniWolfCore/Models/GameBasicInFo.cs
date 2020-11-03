@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Models
+namespace UniWolfCore.Models
 {
     class GameBasicInfo
     {
