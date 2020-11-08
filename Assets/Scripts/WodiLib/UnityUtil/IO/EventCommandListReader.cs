@@ -7,7 +7,7 @@ namespace WodiLib.UnityUtil.IO
 {
     class EventCommandListReader
     {
-        public EventCommandList Read(int length,BinaryReadStatus readStatus)
+        public EventCommandList Read(BinaryReadStatus readStatus, int length)
         {
             var eventCommandList = new List<IEventCommand>();
             for (var i = 0; i < length; i++)

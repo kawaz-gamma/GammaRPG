@@ -5,7 +5,7 @@ using WodiLib.UnityUtil.IO;
 using WodiLib.Map;
 using System.Linq;
 using WodiLib.Database;
-using Models;
+using UniWolfCore.Models;
 
 public class Map : MonoBehaviour
 {
@@ -15,8 +15,6 @@ public class Map : MonoBehaviour
     [SerializeField]
     SpriteRenderer mapSprite;
 
-    string dataPath = Application.streamingAssetsPath + "/Project/Data/";
-
     Texture2D baseTileTexture;
     Texture2D[] autoTileTextures;
 
@@ -24,6 +22,10 @@ public class Map : MonoBehaviour
     int[] autoTileMasks;
     int[] autoTileXs;
     int[] autoTileYs;
+
+    string dataPath = Application.streamingAssetsPath + "/Project/Data/";
+
+    bool rendered;
 
     // Start is called before the first frame update
     void Start()
@@ -34,32 +36,31 @@ public class Map : MonoBehaviour
         autoTileXs = new int[4] { chipSize / 2, 0, chipSize / 2, 0 };
         autoTileYs = new int[4] { chipSize / 2, chipSize / 2, 0, 0 };
 
-        RenderMap();
+        rendered = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(!rendered && CoreData.Instance.isReadCompleted)
+        {
+            rendered = true;
+            RenderMap();
+        }
     }
 
-    async void RenderMap()
+    void RenderMap()
     {
-        DatabaseMergedData systemDB = await ReadSystemDB();
-        var mapDataList = systemDB.GetDataDescList(0);
+        var mapDataList = CoreData.Instance.systemDB.GetDataDescList(0);
         if(mapNo>= mapDataList.Count)
         {
             return;
         }
 
-        string mapPath = dataPath + mapDataList[mapNo].ItemValueList[0].StringValue.ToString();
-        var mpsReader = new MpsFileReader();
-        MapData mapData = await mpsReader.ReadFileAsync(mapPath);
+        // 本当はCoreDataから読み込みたい
+        MapData mapData = CoreData.Instance.mapDataArray[mapNo];
 
-        string tileSetPath = dataPath + "BasicData/TileSetData.dat";
-        var reader = new TileSetDataFileReader();
-        TileSetData setData = await reader.ReadFileAsync(tileSetPath);
-        TileSetSetting tileSetting = setData.TileSetSettingList[mapData.TileSetId];
+        TileSetSetting tileSetting = CoreData.Instance.tileSetData.TileSetSettingList[mapData.TileSetId];
 
         ReadBaseTileTexture(tileSetting.BaseTileSetFileName);
 
@@ -115,16 +116,6 @@ public class Map : MonoBehaviour
         Sprite sprite = Sprite.Create(mapTexture,
             new Rect(0.0f, 0.0f, mapTexture.width, mapTexture.height), new Vector2(0.5f, 0.5f), 1.0f);
         mapSprite.sprite = sprite;
-    }
-
-    async Task<DatabaseMergedData> ReadSystemDB()
-    {
-        string datPath = dataPath + "BasicData/SysDataBase.dat";
-        string projectPath = dataPath + "BasicData/SysDataBase.project";
-
-        var dbReader = new DatabaseMergedDataReader();
-        DatabaseMergedData data = await dbReader.ReadFilesAsync(datPath, projectPath);
-        return data;
     }
 
     void ReadBaseTileTexture(string baseTilePath)
@@ -211,17 +202,5 @@ public class Map : MonoBehaviour
                 }
             }
         }
-    }
-
-    async void ReadSystemDBTest()
-    {
-        string datPath = Application.streamingAssetsPath
-            + "/Project/Data/BasicData/SysDataBase.dat";
-        string projectPath = Application.streamingAssetsPath
-            + "/Project/Data/BasicData/SysDataBase.project";
-
-        var reader = new DatabaseMergedDataReader();
-        WodiLib.Database.DatabaseMergedData data = await reader.ReadFilesAsync(datPath,projectPath);
-        var list = data.GetDataDescList(0).ToList();
     }
 }
