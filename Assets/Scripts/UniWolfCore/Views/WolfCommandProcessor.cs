@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UniWolfCore;
+using UniWolfCore.Models;
+using UniWolfCore.UseCases;
 using WodiLib.Event.EventCommand;
 using WodiLib.Map;
-using WodiLib.UnityUtil.IO;
 
 public class WolfCommandProcessor : MonoBehaviour
 {
@@ -16,7 +16,6 @@ public class WolfCommandProcessor : MonoBehaviour
     [SerializeField]
     Text messageText;
 
-    string dataPath = Application.streamingAssetsPath + "/Project/Data/";
     WolfCommandReader commandReader;
     bool rendered;
 
@@ -42,7 +41,7 @@ public class WolfCommandProcessor : MonoBehaviour
         if (!rendered)
         {
             rendered = true;
-            ReadMap();
+            ReadEvent();
         }
 
         if (commandList!=null&& commandId < commandList.Count)
@@ -58,18 +57,11 @@ public class WolfCommandProcessor : MonoBehaviour
         }
     }
 
-    async void ReadMap()
+    void ReadEvent()
     {
-        var mapDataList = CoreData.Instance.systemDB.GetDataDescList(0);
-        if (mapNo >= mapDataList.Count)
-        {
-            return;
-        }
-
-        // 本当はCoreDataから読み込みたい
-        string mapPath = dataPath + mapDataList[mapNo].ItemValueList[0].StringValue.ToString();
-        var mpsReader = new MpsFileReader();
-        MapData mapData = await mpsReader.ReadFileAsync(mapPath);
+        var hoge = CoreData.Instance.commonEvents[63];
+        var line = hoge.EventCommands[21];
+        MapData mapData = CoreData.Instance.mapDataArray[mapNo];
         commandList = mapData.MapEvents[0].MapEventPageList[0].EventCommands;
         func = commandReader.ReadCommand(commandList[0]);
     }

@@ -358,7 +358,7 @@ namespace WodiLib.UnityUtil.IO
             // イベントコマンド
             var eventCommandListReader = new EventCommandListReader();
 
-            result.EventCommands = eventCommandListReader.Read(eventLength,ReadStatus);
+            result.EventCommands = eventCommandListReader.Read(ReadStatus,eventLength);
 
             // イベントコマンド終端チェック
             foreach (var b in EventCommandList.EndEventCommand)

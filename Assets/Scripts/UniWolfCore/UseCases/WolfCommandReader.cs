@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using WodiLib.Event.EventCommand;
 
-namespace UniWolfCore
+namespace UniWolfCore.UseCases
 {
     class WolfCommandReader
     {
@@ -24,6 +24,11 @@ namespace UniWolfCore
                     messageText.text = commandData.Text;
                     return Input.GetKeyDown(KeyCode.Z);
                 };
+            }
+            if (command.EventCommandCode == EventCommandCode.SetVariable)
+            {
+                var commandData = command as SetVariableBase;
+
             }
 
             return () => true;

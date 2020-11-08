@@ -49,7 +49,7 @@ public class Map : MonoBehaviour
         }
     }
 
-    async void RenderMap()
+    void RenderMap()
     {
         var mapDataList = CoreData.Instance.systemDB.GetDataDescList(0);
         if(mapNo>= mapDataList.Count)
@@ -58,10 +58,7 @@ public class Map : MonoBehaviour
         }
 
         // 本当はCoreDataから読み込みたい
-        string mapPath = dataPath + mapDataList[mapNo].ItemValueList[0].StringValue.ToString();
-        var mpsReader = new MpsFileReader();
-        MapData mapData = await mpsReader.ReadFileAsync(mapPath);
-        var hoge = mapData.MapEvents[0].MapEventPageList[0].EventCommands;
+        MapData mapData = CoreData.Instance.mapDataArray[mapNo];
 
         TileSetSetting tileSetting = CoreData.Instance.tileSetData.TileSetSettingList[mapData.TileSetId];
 
