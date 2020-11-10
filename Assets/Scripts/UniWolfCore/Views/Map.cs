@@ -9,8 +9,6 @@ using UniWolfCore.Models;
 
 public class Map : MonoBehaviour
 {
-    [SerializeField]
-    int mapNo;
 
     [SerializeField]
     SpriteRenderer mapSprite;
@@ -52,13 +50,8 @@ public class Map : MonoBehaviour
     void RenderMap()
     {
         var mapDataList = CoreData.Instance.systemDB.GetDataDescList(0);
-        if(mapNo>= mapDataList.Count)
-        {
-            return;
-        }
 
-        // 本当はCoreDataから読み込みたい
-        MapData mapData = CoreData.Instance.mapDataArray[mapNo];
+        MapData mapData = CoreData.Instance.mapDataArray[CoreData.Instance.currentMapID];
 
         TileSetSetting tileSetting = CoreData.Instance.tileSetData.TileSetSettingList[mapData.TileSetId];
 

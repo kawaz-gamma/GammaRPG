@@ -19,9 +19,11 @@ namespace UniWolfCore.Models
             CoreData.Instance.userDB = await ReadDB(dataPath, "DataBase");
             CoreData.Instance.changableDB = await ReadDB(dataPath, "CDataBase");
             CoreData.Instance.systemDB = await ReadDB(dataPath, "SysDataBase");
-            CoreData.Instance.commonEvents = await ReadCommonEventList(dataPath);
             CoreData.Instance.tileSetData = await ReadTileSetData(dataPath);
-            await InitializeMapVariables(dataPath);
+            await InitializeCommonEventList(dataPath);
+            await InitializeMapData(dataPath);
+            InitializeVariables();
+            InitializeCurrentMapID();
             onDone();
         }
 
@@ -35,15 +37,6 @@ namespace UniWolfCore.Models
             return data;
         }
 
-        async Task<CommonEventList> ReadCommonEventList(string dataPath)
-        {
-            string datPath= $"{dataPath}BasicData/CommonEvent.dat";
-
-            var reader = new CommonEventDatFileReader();
-            CommonEventData data = await reader.ReadFileAsync(datPath);
-            return data.CommonEventList;
-        }
-
         async Task<TileSetData> ReadTileSetData(string dataPath)
         {
             string tileSetPath = dataPath + "BasicData/TileSetData.dat";
@@ -51,24 +44,70 @@ namespace UniWolfCore.Models
             return await reader.ReadFileAsync(tileSetPath);
         }
 
-        async Task InitializeMapVariables(string dataPath)
+        async Task InitializeCommonEventList(string dataPath)
+        {
+            string datPath = $"{dataPath}BasicData/CommonEvent.dat";
+
+            var reader = new CommonEventDatFileReader();
+            CommonEventData data = await reader.ReadFileAsync(datPath);
+            CoreData.Instance.commonEvents = data.CommonEventList;
+
+            int eventCount = data.CommonEventList.Count;
+            CoreData.Instance.commonEventVariables = new int[eventCount][];
+            CoreData.Instance.commonEventStrings = new string[eventCount][];
+            for (int i = 0; i < eventCount; i++)
+            {
+                CoreData.Instance.commonEventVariables[i] = new int[95];
+                CoreData.Instance.commonEventStrings[i] = new string[5];
+            }
+        }
+
+        async Task InitializeMapData(string dataPath)
         {
             DatabaseDataDescList mapSettingList = CoreData.Instance.systemDB.GetDataDescList(0);
 
             CoreData.Instance.mapDataArray = new MapData[mapSettingList.Count];
-            CoreData.Instance.mapVariablesArray = new int[mapSettingList.Count][][];
+            CoreData.Instance.mapVariables = new int[mapSettingList.Count][][];
             for (int i = 0; i < mapSettingList.Count; i++)
             {
                 string mapPath = dataPath + mapSettingList[i].ItemValueList[0].StringValue.ToString();
                 var mpsReader = new MpsFileReader();
                 MapData mapData= await mpsReader.ReadFileAsync(mapPath);
                 CoreData.Instance.mapDataArray[i] = mapData;
-                CoreData.Instance.mapVariablesArray[i] = new int[mapData.MapEvents.Count][];
+                CoreData.Instance.mapVariables[i] = new int[mapData.MapEvents.Count][];
                 for(int j = 0; j < mapData.MapEvents.Count; j++)
                 {
-                    CoreData.Instance.mapVariablesArray[i][j] = new int[10];
+                    CoreData.Instance.mapVariables[i][j] = new int[10];
                 }
             }
+        }
+
+        void InitializeVariables()
+        {
+            int systemVariableCnt = CoreData.Instance.systemDB.GetDataDescList(6).Count;
+            CoreData.Instance.systemVariables = new int[systemVariableCnt];
+
+            int systemStringCnt = CoreData.Instance.systemDB.GetDataDescList(5).Count;
+            CoreData.Instance.systemStrings = new string[systemStringCnt];
+
+            int normalVariableCnt = CoreData.Instance.systemDB.GetDataDescList(14).Count;
+            CoreData.Instance.normalVariables = new int[normalVariableCnt];
+
+            CoreData.Instance.subVariables = new int[9][];
+            for(int i = 0; i < 9; i++)
+            {
+                int variableCnt = CoreData.Instance.systemDB.GetDataDescList(15 + i).Count;
+                CoreData.Instance.subVariables[i] = new int[variableCnt];
+            }
+
+            int stringVariableCnt= CoreData.Instance.systemDB.GetDataDescList(4).Count;
+            CoreData.Instance.stringVariables = new string[stringVariableCnt];
+        }
+
+        void InitializeCurrentMapID()
+        {
+            DatabaseDataDescList posSettingList = CoreData.Instance.systemDB.GetDataDescList(7);
+            CoreData.Instance.currentMapID = posSettingList[0].ItemValueList[0].IntValue;
         }
     }
 }

@@ -31,10 +31,21 @@ namespace UniWolfCore.Models
         private CoreData() { }
 
         public DatabaseMergedData userDB, changableDB, systemDB;
+
+        public int[] systemVariables;
+        public string[] systemStrings;
+        public int[] normalVariables;
+        public int[][] subVariables;
+        public string[] stringVariables;
+
         public CommonEventList commonEvents;
+        public int[][] commonEventVariables;
+        public string[][] commonEventStrings;
+
         public TileSetData tileSetData;
         public MapData[] mapDataArray;
-        public int[][][] mapVariablesArray;
+        public int[][][] mapVariables;
+        public int currentMapID;
 
         public bool isReadCompleted;
 
