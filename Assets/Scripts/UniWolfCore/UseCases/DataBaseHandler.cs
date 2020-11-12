@@ -19,6 +19,12 @@ namespace Assets.Scripts.UniWolfCore.UseCases
             return db.GetDataDescList(typeID)[dataID].ItemValueList[itemID].StringValue;
         }
 
+        public void SetSystemDB(int typeID, int dataID, int itemID, int value)
+        {
+            DatabaseMergedData db = CoreData.Instance.systemDB;
+            db.GetDataDescList(typeID)[dataID].ItemValueList[itemID] = value;
+        }
+
         public int GetChangableDBInteger(int typeID, int dataID, int itemID)
         {
             DatabaseMergedData db = CoreData.Instance.changableDB;
@@ -31,6 +37,12 @@ namespace Assets.Scripts.UniWolfCore.UseCases
             return db.GetDataDescList(typeID)[dataID].ItemValueList[itemID].StringValue;
         }
 
+        public void SetChangableDB(int typeID, int dataID, int itemID, int value)
+        {
+            DatabaseMergedData db = CoreData.Instance.changableDB;
+            db.GetDataDescList(typeID)[dataID].ItemValueList[itemID] = value;
+        }
+
         public int GetUserDBInteger(int typeID, int dataID, int itemID)
         {
             DatabaseMergedData db = CoreData.Instance.userDB;
@@ -41,6 +53,12 @@ namespace Assets.Scripts.UniWolfCore.UseCases
         {
             DatabaseMergedData db = CoreData.Instance.userDB;
             return db.GetDataDescList(typeID)[dataID].ItemValueList[itemID].StringValue;
+        }
+
+        public void SetUserDB(int typeID, int dataID, int itemID, int value)
+        {
+            DatabaseMergedData db = CoreData.Instance.userDB;
+            db.GetDataDescList(typeID)[dataID].ItemValueList[itemID] = value;
         }
     }
 }

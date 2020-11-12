@@ -28,5 +28,21 @@ namespace Assets.Scripts.UniWolfCore.UseCases
                 return CoreData.Instance.commonEventVariables[eventID][variableID];
             }
         }
+
+        public void SetSelfVariableInteger(int eventID, int variableID,int value)
+        {
+            if (variableID >= 5 && variableID <= 9)
+            {
+                CoreData.Instance.commonEventStrings[eventID][variableID] = value.ToString();
+            }
+            else
+            {
+                if (variableID > 9)
+                {
+                    variableID -= 5;
+                }
+                CoreData.Instance.commonEventVariables[eventID][variableID] = value;
+            }
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace UniWolfCore.Models
 
         public TileSetData tileSetData;
         public MapData[] mapDataArray;
+        public int[][] mapEventCurrentPages;
         public int[][][] mapVariables;
         public int currentMapID;
 

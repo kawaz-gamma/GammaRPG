@@ -66,7 +66,8 @@ namespace UniWolfCore.Models
         {
             DatabaseDataDescList mapSettingList = CoreData.Instance.systemDB.GetDataDescList(0);
 
-            CoreData.Instance.mapDataArray = new MapData[mapSettingList.Count];
+            CoreData.Instance.mapEventCurrentPages = new int[mapSettingList.Count][];
+        CoreData.Instance.mapDataArray = new MapData[mapSettingList.Count];
             CoreData.Instance.mapVariables = new int[mapSettingList.Count][][];
             for (int i = 0; i < mapSettingList.Count; i++)
             {
@@ -74,6 +75,7 @@ namespace UniWolfCore.Models
                 var mpsReader = new MpsFileReader();
                 MapData mapData= await mpsReader.ReadFileAsync(mapPath);
                 CoreData.Instance.mapDataArray[i] = mapData;
+                CoreData.Instance.mapEventCurrentPages[i] = new int[mapData.MapEvents.Count];
                 CoreData.Instance.mapVariables[i] = new int[mapData.MapEvents.Count][];
                 for(int j = 0; j < mapData.MapEvents.Count; j++)
                 {
