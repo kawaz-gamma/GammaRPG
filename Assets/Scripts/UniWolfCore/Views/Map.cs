@@ -49,8 +49,7 @@ public class Map : MonoBehaviour
 
     void RenderMap()
     {
-        var mapDataList = CoreData.Instance.systemDB.GetDataDescList(0);
-
+        Debug.Log("hoge");
         MapData mapData = CoreData.Instance.mapDataArray[CoreData.Instance.currentMapID];
 
         TileSetSetting tileSetting = CoreData.Instance.tileSetData.TileSetSettingList[mapData.TileSetId];
@@ -115,6 +114,7 @@ public class Map : MonoBehaviour
     {
         baseTileTexture = new Texture2D(1, 1);
         byte[] bytes = System.IO.File.ReadAllBytes(dataPath + baseTilePath);
+        Debug.Log(bytes.Length);
         baseTileTexture.LoadImage(bytes);
         baseTileTexture.filterMode = FilterMode.Point;
     }

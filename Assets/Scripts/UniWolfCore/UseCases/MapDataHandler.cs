@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UniWolfCore.Models;
 using WodiLib.Map;
 
-namespace Assets.Scripts.UniWolfCore.UseCases
+namespace UniWolfCore.UseCases
 {
     class MapDataHandler
     {
@@ -64,24 +64,25 @@ namespace Assets.Scripts.UniWolfCore.UseCases
             switch (typeID)
             {
                 case 0:
-                    mapEvent.Position.X = value;
+                    mapEvent.Position = new Position(value, mapEvent.Position.Y);
                     break;
                 case 1:
-                    mapEvent.Position.Y = value;
+                    mapEvent.Position = new Position(mapEvent.Position.X,value);
                     break;
                 case 2:
-                    mapEvent.Position.X = value / 2;
+                    mapEvent.Position = new Position(value/2, mapEvent.Position.Y);
                     break;
                 case 3:
-                    mapEvent.Position.Y = value / 2;
+                    mapEvent.Position = new Position(mapEvent.Position.X, value/2);
                     break;
                 case 4:
                     break;
                 case 5:
-                    mapEvent.MapEventPageList[pageID].ShadowGraphicId = value;
+                    mapEvent.MapEventPageList[pageID].ShadowGraphicId = (byte)value;
                     break;
                 case 6:
-                    mapEvent.MapEventPageList[pageID].GraphicInfo.InitDirection.Code = value;
+                    mapEvent.MapEventPageList[pageID].GraphicInfo.InitDirection 
+                        = CharaChipDirection.FromByte((byte)value);
                     break;
             }
         }

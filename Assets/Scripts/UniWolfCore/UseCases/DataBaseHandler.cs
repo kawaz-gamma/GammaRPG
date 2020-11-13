@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UniWolfCore.Models;
 using WodiLib.Database;
 
-namespace Assets.Scripts.UniWolfCore.UseCases
+namespace UniWolfCore.UseCases
 {
     class DataBaseHandler
     {
@@ -22,7 +22,7 @@ namespace Assets.Scripts.UniWolfCore.UseCases
         public void SetSystemDB(int typeID, int dataID, int itemID, int value)
         {
             DatabaseMergedData db = CoreData.Instance.systemDB;
-            db.GetDataDescList(typeID)[dataID].ItemValueList[itemID] = value;
+            db.GetDataDescList(typeID)[dataID].ItemValueList[itemID] = new DBItemValue(value);
         }
 
         public int GetChangableDBInteger(int typeID, int dataID, int itemID)
@@ -40,7 +40,7 @@ namespace Assets.Scripts.UniWolfCore.UseCases
         public void SetChangableDB(int typeID, int dataID, int itemID, int value)
         {
             DatabaseMergedData db = CoreData.Instance.changableDB;
-            db.GetDataDescList(typeID)[dataID].ItemValueList[itemID] = value;
+            db.GetDataDescList(typeID)[dataID].ItemValueList[itemID] = new DBItemValue(value);
         }
 
         public int GetUserDBInteger(int typeID, int dataID, int itemID)
@@ -58,7 +58,7 @@ namespace Assets.Scripts.UniWolfCore.UseCases
         public void SetUserDB(int typeID, int dataID, int itemID, int value)
         {
             DatabaseMergedData db = CoreData.Instance.userDB;
-            db.GetDataDescList(typeID)[dataID].ItemValueList[itemID] = value;
+            db.GetDataDescList(typeID)[dataID].ItemValueList[itemID] = new DBItemValue(value);
         }
     }
 }

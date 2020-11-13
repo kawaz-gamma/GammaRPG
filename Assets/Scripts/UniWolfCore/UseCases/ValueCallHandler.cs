@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Assets.Scripts.UniWolfCore.UseCases
+namespace UniWolfCore.UseCases
 {
     class ValueCallHandler
     {
@@ -204,21 +201,21 @@ namespace Assets.Scripts.UniWolfCore.UseCases
                 int typeID = val / 1000000 % 100;
                 int dataID = val / 100 % 10000;
                 int itemID = val % 100;
-                dbHandler.SetSystemDBInteger(typeID, dataID, itemID, assignValue);
+                dbHandler.SetSystemDB(typeID, dataID, itemID, assignValue);
             }
             else if (val / 100000000 == 11)
             {
                 int typeID = val / 1000000 % 100;
                 int dataID = val / 100 % 10000;
                 int itemID = val % 100;
-                dbHandler.SetChangableDBInteger(typeID, dataID, itemID, assignValue);
+                dbHandler.SetChangableDB(typeID, dataID, itemID, assignValue);
             }
             else if (val / 100000000 == 13)
             {
                 int typeID = val / 1000000 % 100;
                 int dataID = val / 100 % 10000;
                 int itemID = val % 100;
-                dbHandler.SetUserDBInteger(typeID, dataID, itemID, assignValue);
+                dbHandler.SetUserDB(typeID, dataID, itemID, assignValue);
             }
         }
     }

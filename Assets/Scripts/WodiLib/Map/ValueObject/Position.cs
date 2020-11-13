@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// 座標
     /// </summary>
     [Serializable]
-    public readonly struct Position : IEquatable<Position>
+    public struct Position : IEquatable<Position>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

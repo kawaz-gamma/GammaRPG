@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UniWolfCore.Models;
 
-namespace Assets.Scripts.UniWolfCore.UseCases
+namespace UniWolfCore.UseCases
 {
     class VariableHandler
     {

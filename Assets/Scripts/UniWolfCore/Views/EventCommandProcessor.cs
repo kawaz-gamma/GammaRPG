@@ -19,7 +19,7 @@ namespace UniWolfCore.Views
         WolfCommandReader commandReader;
 
         int commandId = 0;
-        Func<bool> func;
+        ICommandRunner runner;
 
         public EventCommandProcessor(Text messageText,int eventID,EventCommandList commandList)
         {
@@ -27,19 +27,19 @@ namespace UniWolfCore.Views
             this.eventID = eventID;
             this.commandList = commandList;
             commandReader = new WolfCommandReader(this);
-            func = commandReader.ReadCommand(commandList[0]);
+            runner = commandReader.ReadCommand(commandList[0]);
         }
 
         public void Run()
         {
             if (commandId < commandList.Count)
             {
-                if (func())
+                if ( runner.Run())
                 {
                     commandId++;
                     if (commandId < commandList.Count)
                     {
-                        func = commandReader.ReadCommand(commandList[commandId]);
+                        runner = commandReader.ReadCommand(commandList[commandId]);
                     }
                 }
             }
