@@ -44,12 +44,12 @@ public class Map : MonoBehaviour
         {
             rendered = true;
             RenderMap();
+            Debug.Log("done");
         }
     }
 
     void RenderMap()
     {
-        Debug.Log("hoge");
         MapData mapData = CoreData.Instance.mapDataArray[CoreData.Instance.currentMapID];
 
         TileSetSetting tileSetting = CoreData.Instance.tileSetData.TileSetSettingList[mapData.TileSetId];
@@ -60,6 +60,14 @@ public class Map : MonoBehaviour
 
         Texture2D mapTexture
             = new Texture2D(mapData.MapSizeWidth * chipSize, mapData.MapSizeHeight * chipSize);
+        for(int i = 0; i < mapTexture.height; i++)
+        {
+            for(int j = 0; j < mapTexture.width; j++)
+            {
+                mapTexture.SetPixel(j, i, new Color(0, 0, 0));
+            }
+        }
+
         for (int i = 0; i < mapData.MapSizeHeight; i++)
         {
             for (int j = 0; j < mapData.MapSizeWidth; j++)
@@ -107,6 +115,8 @@ public class Map : MonoBehaviour
 
         Sprite sprite = Sprite.Create(mapTexture,
             new Rect(0.0f, 0.0f, mapTexture.width, mapTexture.height), new Vector2(0.5f, 0.5f), 1.0f);
+        /*sprite = Sprite.Create(baseTileTexture,
+            new Rect(0, 0, baseTileTexture.width, baseTileTexture.height), new Vector2(0.5f, 0.5f), 1.0f);*/
         mapSprite.sprite = sprite;
     }
 
@@ -121,7 +131,7 @@ public class Map : MonoBehaviour
 
     void ReadAutoTileTextures(AutoTileFileName[] autoTilePaths)
     {
-        autoTileTextures = new Texture2D[autoTilePaths.Length];
+        autoTileTextures = new Texture2D[1 + autoTilePaths.Length];
 
         for (int i = 0; i < autoTilePaths.Length; i++)
         {

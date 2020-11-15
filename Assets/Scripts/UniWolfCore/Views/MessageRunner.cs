@@ -25,6 +25,7 @@ namespace UniWolfCore.Views
             }
 
             text.text = str;
+            //text.text = "ウルファール\n「ようこそ、\\r[WOLF,ウルフ] RPGエディターの世界へ！\n　私は案内人のウルファールと申します。";
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 Debug.Log("Press");

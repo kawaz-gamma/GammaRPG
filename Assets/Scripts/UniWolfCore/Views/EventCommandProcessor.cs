@@ -9,6 +9,9 @@ using WodiLib.Map;
 
 namespace UniWolfCore.Views
 {
+    /// <summary>
+    /// 最終的にRXを用いてイベント管理する予定
+    /// </summary>
     public class EventCommandProcessor
     {
         public Text messageText;

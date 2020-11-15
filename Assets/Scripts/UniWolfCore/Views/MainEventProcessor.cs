@@ -29,6 +29,7 @@ namespace UniWolfCore.Views
                 readDone = true;
                 MapDataHandler handler = new MapDataHandler();
                 int mapID = CoreData.Instance.currentMapID;
+                Debug.Log(mapID);
                 EventCommandList events
                     = CoreData.Instance.mapDataArray[mapID].GetMapEvent(0).MapEventPageList[0].EventCommands;
                 processor = new EventCommandProcessor(text,0, events);

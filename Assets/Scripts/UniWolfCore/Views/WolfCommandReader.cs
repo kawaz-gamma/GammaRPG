@@ -23,6 +23,11 @@ namespace UniWolfCore.Views
                 var commandData = command as SetVariableBase;
                 return new SetVariableRunner(processor.eventID, commandData);
             }
+            if (command.EventCommandCode==EventCommandCode.ChoiceStart)
+            {
+                var commandData = command as ChoiceStart;
+
+            }
 
             return new BlankRunner();
         }
